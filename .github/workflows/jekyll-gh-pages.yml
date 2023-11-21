@@ -34,6 +34,13 @@ jobs:
       # Add a step to copy _config.yml into the Jekyll source directory
       - name: Copy _config.yml
         run: cp _config.yml ./.github/workflows
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
