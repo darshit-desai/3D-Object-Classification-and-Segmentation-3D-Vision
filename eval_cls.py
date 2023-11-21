@@ -31,10 +31,10 @@ def create_parser():
     parser.add_argument('--RotationXZ', type=float, nargs=2, default=[0.0, 0.0], help='Input the amount of rotation along x, and z axes')
 
     # Cluster argument
-    parser.add_argument('--cluster', action='store_true', default=False, help="If true then it will assume that you're in a cluster and run the program accordingly")
-
+    parser.add_argument('--cluster', type=bool, default=False, help="If true then it will assume that you're in a cluster and run the program accordingly")
+    args = parser.parse_args()
     # Additional arguments based on cluster
-    if parser.parse_args().cluster:
+    if args.cluster:
         parser.add_argument('--test_data', type=str, default='/fs/class-projects/fall2023/cmsc848f/c848f010/data/cls/data_test.npy')
         parser.add_argument('--test_label', type=str, default='/fs/class-projects/fall2023/cmsc848f/c848f010/data/cls/label_test.npy')
         parser.add_argument('--output_dir', type=str, default='./output/cls/')
