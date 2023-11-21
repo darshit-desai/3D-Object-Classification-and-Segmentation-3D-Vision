@@ -56,6 +56,14 @@ jobs:
         with:
           artifact-name: jekyll-site
 
+      - name: Limit Docker image cache size
+        run: |
+          docker image prune -a --filter "until=24h" --force
+
+      - name: Cleanup artifacts
+        run: |
+          rm -rf ./_site
+
   # Deployment job
   deploy:
     environment:
@@ -72,6 +80,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
 
 
 
