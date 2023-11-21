@@ -1216,6 +1216,8 @@ As mentioned earlier this model uses the same point clouds and it can be easily 
 
 #### Rotation along X axis: Segmentation Results
 
+The following are the results of the point cloud segmentation with rotation around x-axis only, notice how the instance accuracies and the overall accuracies decreases with increase in angle. The same reason of unseen data due to not using data augmentation can be attributed to such a performance of segmentation. More results with x,y and z rotations are in the following section after this one.
+
 <style>
   .custom-table1 {
     margin-left: -500px; /* Adjust the margin to your preference */
@@ -1493,42 +1495,42 @@ As mentioned earlier this model uses the same point clouds and it can be easily 
   <td>
     <p>
       <font size = "4.0">
-        <strong>Instance Accuracy: 89.1 %</strong>
+        <strong>Instance Accuracy: 87.72 %</strong>
       </font>
     </p>
   </td>
   <td>
     <p>
       <font size = "4.0">
-        <strong>Instance Accuracy: 85.67 %</strong>
+        <strong>Instance Accuracy: 84.6 %</strong>
       </font>
     </p>
   </td>
   <td>
     <p>
       <font size = "4.0">
-        <strong>Instance Accuracy: 80.39 %</strong>
+        <strong>Instance Accuracy: 70.03 %</strong>
       </font>
     </p>
   </td>
   <td>
     <p>
       <font size = "4.0">
-        <strong>Instance Accuracy: 16.76 %</strong>
+        <strong>Instance Accuracy: 35.09 %</strong>
       </font>
     </p>
   </td>
   <td>
     <p>
       <font size = "4.0">
-        <strong>Instance Accuracy: 15.3 %</strong>
+        <strong>Instance Accuracy: 52.36 %</strong>
       </font>
     </p>
   </td>
   <td>
     <p>
       <font size = "4.0">
-        <strong>Instance Accuracy: 31.18 %</strong>
+        <strong>Instance Accuracy: 53.09 %</strong>
       </font>
     </p>
   </td>
@@ -1539,49 +1541,433 @@ As mentioned earlier this model uses the same point clouds and it can be easily 
   <tr>
     <td>
       <p>
-        <font size = "5">
-          <strong> Test accuracy : 94.13 %</strong>
+        <font size = "3.5">
+          <strong> Overall Test Accuracies</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
-        <font size = "5">
-          <strong> Test accuracy : 83.31 %</strong>
+        <font size = "4.5">
+          <strong> Test accuracy : 86.64 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
-        <font size = "5">
-          <strong> Test accuracy : 60.33 %</strong>
+        <font size = "4.5">
+          <strong> Test accuracy : 78.99 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
-        <font size = "5">
-          <strong> Test accuracy : 32.53 %</strong>
+        <font size = "4.5">
+          <strong> Test accuracy : 70.71 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
-        <font size = "5">
-          <strong> Test accuracy : 40.39 %</strong>
+        <font size = "4.5">
+          <strong> Test accuracy : 21.59 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
-        <font size = "5">
-          <strong> Test accuracy : 73.97 %</strong>
+        <font size = "4.5">
+          <strong> Test accuracy : 14.43 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 31.95 %</strong>
         </font>
       </p>
     </td>
   </tr>
 </table>
 
+
+#### Rotation along XYZ axis: Segmentation Results
+
+The following are the results of the point cloud segmentation with rotation around xyz-axis by the same amount of rotation angles around all three axis, notice how the instance accuracies and the overall accuracies decreases with increase in angle. The same reason of unseen data due to not using data augmentation can be attributed to such a performance of segmentation. More results with x,y and z rotations are in the following section after this one.
+
+<style>
+  .custom-table1 {
+    margin-left: -500px; /* Adjust the margin to your preference */
+    width: calc(250%);
+    text-align: left;
+    border-collapse: collapse;
+  }
+  .custom-table1 th, .custom-table td {
+    padding: 2px;
+    border: 1px solid #ccc;
+  }
+  .custom-table1 th:first-child,
+  .custom-table1 td:first-child {
+    width: 0.05%; /* Set the width for the first column (Angles) */
+  }
+  .custom-table1 th:not(:first-child),
+  .custom-table1 td:not(:first-child) {
+    width: 12%; /* Set the width for the rest of the columns */
+  }
+  .custom-table1 figure {
+    margin: 0; /* Remove default margins around figures */
+  }
+  .custom-table1 img {
+    width: 100%; /* Make the images fill their container */
+  }
+</style>
+<table class="custom-table1" style="text-align: center;">
+  <tr>
+    <th> Angles</th>
+    <th>Rotation by 15 degrees</th>
+    <th>Rotation by 30 degrees</th>
+    <th>Rotation by 45 degrees</th>
+    <th>Rotation by 90 degrees</th>
+    <th>Rotation by 120 degrees</th>
+    <th>Rotation by 180 degrees</th>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong>Ground Truth</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_15.0_15.0_15.0/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 15 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_30.0_30.0_30.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 30 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_45.0_45.0_45.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 45 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_90.0_90.0_90.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 90 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_120.0_120.0_120.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 120 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_180.0_180.0_180.0/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 180 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong> Prediction</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_15.0_15.0_15.0/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 15 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_30.0_30.0_30.0/fail/gt_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 30 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_45.0_45.0_45.0/fail/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 45 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_90.0_90.0_90.0/fail/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 90 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_120.0_120.0_120.0/fail/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 120 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_180.0_180.0_180.0/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 180 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td><p>
+      <font size = "2.5">
+        <strong>Instance Accuracies</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 68.63 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 46.74 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 21.16 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 24.42 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 20.53 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 90.93 %</strong>
+      </font>
+    </p>
+  </td>
+  </tr>
+
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong>Ground Truth</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_15.0_15.0_15.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 15 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_30.0_30.0_30.0/fail/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 30 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_45.0_45.0_45.0/fail/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 45 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_90.0_90.0_90.0/fail/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 90 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_120.0_120.0_120.0/fail/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 120 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_180.0_180.0_180.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 180 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong> Prediction</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_15.0_15.0_15.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 15 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_30.0_30.0_30.0/fail/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 30 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_45.0_45.0_45.0/fail/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 45 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_90.0_90.0_90.0/fail/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 90 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_120.0_120.0_120.0/fail/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 120 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationXYZ_180.0_180.0_180.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 180 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td><p>
+      <font size = "2.5">
+        <strong>Instance Accuracies</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 69.90 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 47.09 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 17.52 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 31.58 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 30.01 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 88.92 %</strong>
+      </font>
+    </p>
+  </td>
+  </tr>
+
+
+  
+  <tr>
+    <td>
+      <p>
+        <font size = "3.5">
+          <strong> Overall Test Accuracies</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 76.99 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 53.84 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 29.32 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 37.93 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 23.95 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 90.47 %</strong>
+        </font>
+      </p>
+    </td>
+  </tr>
+</table>
 
 
 <!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js" charset="utf-8"></script><script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
