@@ -24,11 +24,11 @@ def create_parser():
     parser.add_argument('--num_workers', type=int, default=12, help='The number of threads to use for the DataLoader.')
 
     # Rotation arguments
-    parser.add_argument('--RotationX', type=float, default=0.0, help='Input the amount of rotation along x-axis')
-    parser.add_argument('--RotationXYZ', type=float, nargs=3, default=[0.0, 0.0, 0.0], help='Input the amount of rotation along x, y, and z axes')
-    parser.add_argument('--RotationXY', type=float, nargs=3, default=[0.0, 0.0], help='Input the amount of rotation along x, y, and z axes')
-    parser.add_argument('--RotationYZ', type=float, nargs=2, default=[0.0, 0.0], help='Input the amount of rotation along y, and z axes')
-    parser.add_argument('--RotationXZ', type=float, nargs=2, default=[0.0, 0.0], help='Input the amount of rotation along x, and z axes')
+    parser.add_argument('--RotationX', type=float, default=None, help='Input the amount of rotation along x-axis')
+    parser.add_argument('--RotationXYZ', type=float, nargs=3, default=None, help='Input the amount of rotation along x, y, and z axes')
+    parser.add_argument('--RotationXY', type=float, nargs=3, default=None, help='Input the amount of rotation along x, y, and z axes')
+    parser.add_argument('--RotationYZ', type=float, nargs=2, default=None, help='Input the amount of rotation along y, and z axes')
+    parser.add_argument('--RotationXZ', type=float, nargs=2, default=None, help='Input the amount of rotation along x, and z axes')
 
     # Cluster argument
     parser.add_argument('--cluster', type=bool, default=False, help="If true then it will assume that you're in a cluster and run the program accordingly")

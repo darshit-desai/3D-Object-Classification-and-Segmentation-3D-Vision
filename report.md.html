@@ -3,36 +3,383 @@
                                 **Project 3**
                             **Darshit Desai**
                             **Dir id: darshit; Email: darshit@umd.edu**                           
-Differentiable Volume Rendering
+Overview
 ===============================================================================
-In the emission-absorption (EA) model described in class, volumes are typically described by their *appearance* (e.g. emission) and *geometry* (absorption) at *every point* in 3D space. For part 1 of the assignment, you will implement a ***Differentiable Renderer*** for EA volumes, which you will use in parts 2 and 3. Differentiable renderers are extremely useful for 3D learning problems --- one reason is because they allow you to optimize scene parameters (i.e. perform inverse rendering) from image supervision only!
+In this assignment, you will implement a PointNet based architecture for classification and segmentation with point clouds (you don't need to worry about the tranformation blocks). Q1 and Q2 focus on implementing, training and testing models. Q3 asks you to quantitatively analyze model robustness. Q4 (extra point) involves locality. 
 
-The github repository for this assignment is [here](https://github.com/darshit-desai/NeRF-VolumeRendering-3DVision)
+`models.py` is where you will define model structures. `train.py` loads data, trains models, logs trajectories and saves checkpoints. `eval_cls.py` and `eval_seg.py` contain script to evaluate model accuracy and visualize segmentation result. Feel free to modify any file as needed.
 
-Familiarize yourself with the code structure
+The github repository for this assignment is [here](https://github.com/darshit-desai/3D-Object-Classification-and-Segmentation-3D-Vision)
+
+Data Preparation
 -------------------------------------------------------------------------------
-There are four major components of our differentiable volume rendering pipeline:
+Download zip file (~2GB) from https://drive.google.com/file/d/1wXOgwM_rrEYJfelzuuCkRfMmR0J7vLq_/view?usp=sharing. Put the unzipped `data` folder under root directory. There are two folders (`cls` and `seg`) corresponding to two tasks, each of which contains `.npy` files for training and testing.
 
-* ***The camera***: `pytorch3d.CameraBase`
-* ***The scene***: `SDFVolume` in `implicit.py`
-* ***The sampling routine***: `StratifiedSampler` in `sampler.py`
-* ***The renderer***: `VolumeRenderer` in `renderer.py`
-
-`StratifiedSampler` provides a method for sampling multiple points along a ray traveling through the scene (also known as *raymarching*). Together, a sampler and a renderer describe a rendering pipeline. Like traditional graphics pipelines, this rendering procedure is independent of the scene and camera.
-
-The scene, sampler, and renderer are all packaged together under the `Model` class in `main.py`. In particular the `Model`'s forward method invokes a `VolumeRenderer` instance with a sampling strategy and volume as input.
-
-Also, take a look at the `RayBundle` class in `ray_utils.py`, which provides a convenient wrapper around several inputs to the volume rendering procedure per ray.
-
-Outline of tasks
+Q1. Classification Model (40 points)
 -------------------------------------------------------------------------------
-In order to perform rendering, you will implement the following routines:
+Implement the classification model in `models.py`.
 
-1. **Ray sampling from cameras**: you will fill out methods in `ray_utils.py` to generate world space rays from a particular camera.
-2. **Point sampling along rays**: you will fill out the `StratifiedSampler` class to generate sample points along each world space ray
-3. **Rendering**: you will fill out the `VolumeRenderer` class to *evaluate* a volume function at each sample point along a ray, and aggregate these evaluations to perform rendering.
+Deliverables: On your website, 
 
-Ray sampling (10 points)
+- Report the test accuracy.
+
+- Visualize a few random test point clouds and mention the predicted classes for each. Also visualize at least 1 failure prediction for each class (chair, vase and lamp),  and provide interpretation in a few sentences.  
+
+**Answer-** For this part I followed the architecture given in the PointNet paper, we only have 3 classes, and the test accuracy is mentioned below along with the results of successful and failure cases of classification
+
+<p>
+  <font size = "5">
+    <strong> Test accuracy : 97.69 %</strong>
+  </font>
+</p>
+
+Note this is the average test accuracy of classification over all classes.
+
+The implementation details of the architecture are as follows:
+```BASH
+Point Net classification Model
+cls_model(
+  (feature_extract1): Sequential(
+    (0): Conv1d(3, 64, kernel_size=(1,), stride=(1,))
+    (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv1d(64, 64, kernel_size=(1,), stride=(1,))
+    (4): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv1d(64, 64, kernel_size=(1,), stride=(1,))
+    (7): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (features_extract2): Sequential(
+    (0): Conv1d(64, 128, kernel_size=(1,), stride=(1,))
+    (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv1d(128, 1024, kernel_size=(1,), stride=(1,))
+    (4): BatchNorm1d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+  )
+  (classifier): Sequential(
+    (0): Linear(in_features=1024, out_features=512, bias=True)
+    (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Linear(in_features=512, out_features=256, bias=True)
+    (4): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Linear(in_features=256, out_features=3, bias=True)
+    (7): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+)
+```
+### Results: Correct Classifications / Predictions
+
+<style>
+  table {
+    width: 100%;
+    text-align: center;
+  }
+  th, td {
+    width: 33.33%;
+    padding: 1px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Prevents the border from affecting layout */
+  }
+  figure {
+    margin: 0; /* Remove default margins around figures */
+  }
+  img {
+    width: 100%; /* Make the images fill their container */
+  }
+</style>
+<table style="width: 100%; text-align: center;">
+  <tr>
+    <th style="width: 50%;">Point Cloud</th>
+    <th style="width: 25%;">Ground Truth Class</th>
+    <th style="width: 25%;">Predicted Class</th>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/chair/batchidx0cls0Pred_chair_GT_chair.gif" alt="Chair 1 360 degree render" />
+        <figcaption>Chair 1 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Chair (0)
+    </td>
+    <td style="width: 25%;">
+      Chair (0)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/chair/batchidx0cls10Pred_chair_GT_chair.gif" alt="Chair 10 360 degree render" />
+        <figcaption>Chair 10 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Chair (0)
+    </td>
+    <td style="width: 25%;">
+      Chair (0)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/chair/batchidx0cls30Pred_chair_GT_chair.gif" alt="Chair 30 360 degree render" />
+        <figcaption>Chair 30 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Chair (0)
+    </td>
+    <td style="width: 25%;">
+      Chair (0)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/batchidx19cls11Pred_vases_GT_vases.gif" alt="Vases 11 360 degree render" />
+        <figcaption>Vases 11 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/batchidx19cls15Pred_vases_GT_vases.gif" alt="Vases 15 360 degree render" />
+        <figcaption>Vases 15 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/batchidx20cls1Pred_vases_GT_vases.gif" alt="Vases 20 360 degree render" />
+        <figcaption>Vases 20 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/batchidx20cls1Pred_vases_GT_vases.gif" alt="Vases 20 360 degree render" />
+        <figcaption>Vases 20 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/batchidx29cls5Pred_lamps_GT_lamps.gif" alt="Lamps 5 360 degree render" />
+        <figcaption>Lamps 5 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/batchidx22cls15Pred_lamps_GT_lamps.gif" alt="Lamps 15 360 degree render" />
+        <figcaption>Lamps 15 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/batchidx23cls30Pred_lamps_GT_lamps.gif" alt="Lamps 30 360 degree render" />
+        <figcaption>Lamps 30 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+</table>
+
+### Results: Incorrect Classications / Predictions
+
+**Interpretation: ** From the below results my interpretation is that the lamps and vases class are the most misidentified class and that is because of the relative similarity between the two class 3d structures,
+Secondly, it could also be possible that with more data this variation in results could be reduced as seen with chairs where only one false positive was reported making it by far the most accurate
+predictions across classes.
+
+<table style="width: 100%; text-align: center;">
+  <tr>
+    <th style="width: 50%;">Point Cloud</th>
+    <th style="width: 25%;">Ground Truth Class</th>
+    <th style="width: 25%;">Predicted Class</th>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/chair/fail/batchidx12cls22Pred_lamps_GT_chair.gif" alt="Chair 12 360 degree render" />
+        <figcaption>Chair 12 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Chair (0)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/fail/batchidx19cls10Pred_lamps_GT_vases.gif" alt="Vases 19 360 degree render" />
+        <figcaption>Vases 19 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/fail/batchidx22cls12Pred_lamps_GT_vases.gif" alt="Vases 12 360 degree render" />
+        <figcaption>Vases 12 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/fail/batchidx21cls15Pred_lamps_GT_vases.gif" alt="Vases 15 360 degree render" />
+        <figcaption>Vases 15 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/vases/fail/batchidx20cls30Pred_lamps_GT_vases.gif" alt="Vases 30 360 degree render" />
+        <figcaption>Vases 30 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Vase (1)
+    </td>
+    <td style="width: 25%;">
+      Lamp (2)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/fail/batchidx28cls20Pred_vases_GT_lamps.gif" alt="Lamps 20 360 degree render" />
+        <figcaption>Lamps 20 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/fail/batchidx26cls17Pred_vases_GT_lamps.gif" alt="Lamps 17 360 degree render" />
+        <figcaption>Lamps 17 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/fail/batchidx26cls24Pred_vases_GT_lamps.gif" alt="Lamps 24 360 degree render" />
+        <figcaption>Lamps 24 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 50%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/lamps/fail/batchidx28cls31Pred_vases_GT_lamps.gif" alt="Lamps 31 360 degree render" />
+        <figcaption>Lamps 31 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 25;">
+      Lamp (2)
+    </td>
+    <td style="width: 25%;">
+      Vase (1)
+    </td>
+  </tr>
+</table>
+
+Q2. Segmentation Model (40 points) 
 -------------------------------------------------------------------------------
 Take a look at the `render_images` function in `main.py`. It loops through a set of cameras, generates rays for each pixel on a camera, and renders these rays using a `Model` instance.
 
