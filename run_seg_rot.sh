@@ -1,3 +1,5 @@
+python eval_seg.py --load_checkpoint best_model
+wait
 python eval_seg.py --RotationXYZ 150.0 150.0 150.0 --load_checkpoint best_model
 wait
 python eval_seg.py --RotationXYZ 180.0 180.0 180.0 --load_checkpoint best_model

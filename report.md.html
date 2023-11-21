@@ -381,279 +381,1029 @@ predictions across classes.
 
 Q2. Segmentation Model (40 points) 
 -------------------------------------------------------------------------------
-Take a look at the `render_images` function in `main.py`. It loops through a set of cameras, generates rays for each pixel on a camera, and renders these rays using a `Model` instance.
+Implement the segmentation model in `models.py`.  
 
-### Visualization
+- Input: points of chair objects (6 semantic segmentation classes) 
 
-You can run the code for part 1 with:
+- Output: segmentation of points (Dimension: Batch * Number of Points per Object * Number of Segmentation Classes)
 
-```bash
-python main.py --config-name=box
+Deliverables: On your website 
+
+- Report the test accuracy.
+
+- Visualize segmentation results of at least 5 objects (including 2 bad predictions) with corresponding ground truth, report the prediction accuracy for each object, and provide interpretation in a few sentences.
+  
+**Answer-** For this part I followed the architecture given in the PointNet paper,we have 6 classes for segmentation of individual points in a chair dataset, The overall average accuracy of the model over the whole dataset is shown below:
+
+<p>
+  <font size = "5">
+    <strong> Test accuracy : 90.47 %</strong>
+  </font>
+</p>
+The implementation details of the architecture are as follows:
+```BASH
+Pointnet Segmentation Model:
+seg_model(
+  (feature_extract1): Sequential(
+    (0): Conv1d(3, 64, kernel_size=(1,), stride=(1,))
+    (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv1d(64, 64, kernel_size=(1,), stride=(1,))
+    (4): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv1d(64, 64, kernel_size=(1,), stride=(1,))
+    (7): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (features_extract2): Sequential(
+    (0): Conv1d(64, 128, kernel_size=(1,), stride=(1,))
+    (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv1d(128, 1024, kernel_size=(1,), stride=(1,))
+    (4): BatchNorm1d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+  )
+  (maxpooling): MaxPool1d(kernel_size=10000, stride=10000, padding=0, dilation=1, ceil_mode=False)
+  (combo_seg_extract): Sequential(
+    (0): Conv1d(1088, 512, kernel_size=(1,), stride=(1,))
+    (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): Conv1d(512, 256, kernel_size=(1,), stride=(1,))
+    (4): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU()
+    (6): Conv1d(256, 128, kernel_size=(1,), stride=(1,))
+    (7): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU()
+  )
+  (seg_layer): Sequential(
+    (0): Conv1d(128, 6, kernel_size=(1,), stride=(1,))
+  )
+)
 ```
+test accuracy: 0.9047003241491086
+Accuracies exported to ./output/seg/accuracies.csv
 
-Once you have implemented these methods, verify that your output matches the TA output by visualizing both `xy_grid` and `rays` with the `vis_grid` and `vis_rays` functions in the `render_images` function in `main.py`. **By default, the above command will crash and return an error**. However, it should reach your visualization code before it does.
- 
-**Answer-** These are my outputs after implementing `get_pixels_from_image` in `ray_utils.py` and `get_rays_from_pixels` in `ray_utils.py` given below:
+### Results: Correct Segmentations (i.e., between  > 80% and  < 100% points correctly segmented)
 
-<style>
-  table {
-    width: 100%;
-    text-align: center;
-  }
-  td {
-    width: 100%;
-    padding: 1px;
-    border: 1px solid #ccc;
-    box-sizing: border-box; /* Prevents the border from affecting layout */
-  }
-  figure {
-    margin: 0; /* Remove default margins around figures */
-  }
-  img {
-    width: 75%; /* Make the images fill their container */
-  }
+The results are given in descending order of instance accuracy whereas the overall accuracy was shown above. As it can be seen with the increase in number of classes for segmentation and the complexity of chair's structure the accuracy decreases.
+
 </style>
 <table style="width: 100%; text-align: center;">
   <tr>
-    <td style="width: 50%;">
+    <th style="width: 45%;">GT Segmented Point cloud</th>
+    <th style="width: 45%;">Prediction Segmented Point Cloud</th>
+    <th style="width: 10%;">Prediction Instance Accuracy</th>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
       <figure style="display: inline-block; width: 100%;">
-        <img src="images/prob1.3_grid.png" alt="My image output for xy grid" />
-        <figcaption>My image output for xy grid</figcaption>
+        <img src="output/seg/success/gt_9_9.gif" alt="GT Chair 9 batch 9 360 degree render" />
+        <figcaption>GT Chair 9 batch 9 360 degree render</figcaption>
       </figure>
     </td>
-    <td style="width: 50%;">
+    <td style="width: 45%;">
       <figure style="display: inline-block; width: 100%;">
-        <img src="images/prob1.3_rays.png" alt="My image output for rays" />
-        <figcaption>My image output for rays</figcaption>
+        <img src="output/seg/success/pred_9_9.gif" alt="Predicted Chair Segmentation 9 batch 9 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 9 batch 9 360 degree render</figcaption>
       </figure>
+    </td>
+    <td style="width: 10%;">
+      99.71 %
     </td>
   </tr>
   <tr>
-    <td style="width: 50%;">
+    <td style="width: 45%;">
       <figure style="display: inline-block; width: 100%;">
-        <img src="ta_images/grid.png" alt="TA's image output for xy grid" />
-        <figcaption>TA's image output for xy grid</figcaption>
+        <img src="output/seg/success/gt_17_26.gif" alt="GT Chair 26 batch 17 360 degree render" />
+        <figcaption>GT Chair 26 batch 17 360 degree render</figcaption>
       </figure>
     </td>
-    <td style="width: 50%;">
+    <td style="width: 45%;">
       <figure style="display: inline-block; width: 100%;">
-        <img src="ta_images/rays.png" alt="TA's image output for rays" />
-        <figcaption>TA's image output for rays</figcaption>
+        <img src="output/seg/success/pred_17_26.gif" alt="Predicted Chair Segmentation 26 batch 17 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 26 batch 17 360 degree render</figcaption>
       </figure>
+    </td>
+    <td style="width: 10%;">
+      98.13 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_9_15.gif" alt="GT Chair 15 batch 9 360 degree render" />
+        <figcaption>GT Chair 15 batch 9 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_9_15.gif" alt="Predicted Chair Segmentation 15 batch 9 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 15 batch 9 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      95.01 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_8_17.gif" alt="GT Chair 17 batch 8 360 degree render" />
+        <figcaption>GT Chair 17 batch 8 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_8_17.gif" alt="Predicted Chair Segmentation 17 batch 8 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 17 batch 8 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      92.59 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_10_16.gif" alt="GT Chair 16 batch 10 360 degree render" />
+        <figcaption>GT Chair 16 batch 10 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_10_16.gif" alt="Predicted Chair Segmentation 16 batch 10 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 16 batch 10 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      91.99 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_16_3.gif" alt="GT Chair 3 batch 16 360 degree render" />
+        <figcaption>GT Chair 3 batch 16 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_16_3.gif" alt="Predicted Chair Segmentation 3 batch 16 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 3 batch 16 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      90.06 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_17_2.gif" alt="GT Chair 2 batch 17 360 degree render" />
+        <figcaption>GT Chair 2 batch 17 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_17_2.gif" alt="Predicted Chair Segmentation 2 batch 17 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 2 batch 17 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      87.79 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_11_13.gif" alt="GT Chair 13 batch 11 360 degree render" />
+        <figcaption>GT Chair 13 batch 11 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_11_13.gif" alt="Predicted Chair Segmentation 13 batch 11 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 13 batch 11 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      85.55 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_15_22.gif" alt="GT Chair 22 batch 15 360 degree render" />
+        <figcaption>GT Chair 22 batch 15 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_15_22.gif" alt="Predicted Chair Segmentation 22 batch 15 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 22 batch 15 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      80.78 %
     </td>
   </tr>
 </table>
 
-Point sampling (10 points)
--------------------------------------------------------------------------------
-### Visualization
+### Results: Failed Segmentations (i.e., between  > 40% and  < 80% instance accuracy)
 
-Once you have done this, use the `render_points` method in `render_functions.py` in order to visualize the point samples from the first camera. They should look like this:
-
-**Answer-** These are my outputs compared with TA outputs after implementing `StratifiedSampler` in `sampler.py` given below:
-
-Note I modified the function call of rasterizer to explicity change the background to black,
+The results are given in ascending order of accuracies with the lowest < 50% accuracies given first. Note they're also stored in a fail/ folder while any object with greater then 50 % instance accuracy is stored in success/ folder. Note for the first 3 cases how the shape of the point cloud and the size of small objects like pillows significantly affect the accuracy of segmentation. 
 
 <table style="width: 100%; text-align: center;">
   <tr>
-    <td style="width: 50%;">
+    <th style="width: 45%;">GT Segmented Point cloud</th>
+    <th style="width: 45%;">Prediction Segmented Point Cloud</th>
+    <th style="width: 10%;">Prediction Instance Accuracy</th>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
       <figure style="display: inline-block; width: 100%;">
-        <img src="images/raypoints_0_points.png" alt="My ray visualization" />
-        <figcaption>My ray visualization</figcaption>
+        <img src="output/seg/fail/gt_10_31.gif" alt="GT Chair 31 batch 10 360 degree render" />
+        <figcaption>GT Chair 31 batch 10 360 degree render</figcaption>
       </figure>
     </td>
-    <td style="width: 50%;">
+    <td style="width: 45%;">
       <figure style="display: inline-block; width: 100%;">
-        <img src="ta_images/sample_points.png" alt="TA's ray visualization" />
-        <figcaption>TA's ray visualization</figcaption>
+        <img src="output/seg/fail/pred_10_31.gif" alt="Predicted Chair Segmentation 31 batch 10 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 31 batch 10 360 degree render</figcaption>
       </figure>
+    </td>
+    <td style="width: 10%;">
+      47.09 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/fail/gt_7_11.gif" alt="GT Chair 11 batch 7 360 degree render" />
+        <figcaption>GT Chair 11 batch 7 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/fail/pred_7_11.gif" alt="Predicted Chair Segmentation 11 batch 7 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 11 batch 7 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      47.7 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/fail/gt_7_31.gif" alt="GT Chair 31 batch 7 360 degree render" />
+        <figcaption>GT Chair 31 batch 7 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/fail/pred_7_31.gif" alt="Predicted Chair Segmentation 31 batch 7 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 31 batch 7 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      49.96 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_0_26.gif" alt="GT Chair 26 batch 0 360 degree render" />
+        <figcaption>GT Chair 26 batch 0 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_0_26.gif" alt="Predicted Chair Segmentation 26 batch 0 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 26 batch 0 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      52.22 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_13_16.gif" alt="GT Chair 16 batch 13 360 degree render" />
+        <figcaption>GT Chair 16 batch 13 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_13_16.gif" alt="Predicted Chair Segmentation 16 batch 13 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 16 batch 13 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      56.03 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_13_29.gif" alt="GT Chair 29 batch 13 360 degree render" />
+        <figcaption>GT Chair 29 batch 13 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_13_29.gif" alt="Predicted Chair Segmentation 29 batch 13 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 29 batch 13 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      60.37 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_6_22.gif" alt="GT Chair 22 batch 6 360 degree render" />
+        <figcaption>GT Chair 22 batch 6 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_6_22.gif" alt="Predicted Chair Segmentation 22 batch 6 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 22 batch 6 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      65.77 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_0_4.gif" alt="GT Chair 4 batch 0 360 degree render" />
+        <figcaption>GT Chair 4 batch 0 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_0_4.gif" alt="Predicted Chair Segmentation 4 batch 0 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 4 batch 0 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      70.65 %
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_8_3.gif" alt="GT Chair 3 batch 8 360 degree render" />
+        <figcaption>GT Chair 3 batch 8 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 45%;">
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_8_3.gif" alt="Predicted Chair Segmentation 3 batch 8 360 degree render" />
+        <figcaption>Predicted Chair Segmentation 3 batch 8 360 degree render</figcaption>
+      </figure>
+    </td>
+    <td style="width: 10%;">
+      75.59 %
     </td>
   </tr>
 </table>
 
-Volume rendering (30 points)
+Q3. Robustness Analysis (20 points)
 -------------------------------------------------------------------------------
+Conduct 2 experiments to analyze the robustness of your learned model. Some possible suggestions are:
+1. You can rotate the input point clouds by certain degrees and report how much the accuracy falls
+2. You can input a different number of points points per object (modify `--num_points` when evaluating models in `eval_cls.py` and `eval_seg.py`)
 
-Finally, we can implement volume rendering! With the `configs/box.yaml` configuration, we provide you with an `SDFVolume` instance describing a box. You can check out the code for this function in `implicit.py`, which converts a signed distance function into a volume. If you want, you can even implement your own `SDFVolume` classes by creating new signed distance function class, and adding it to `sdf_dict` in `implicit.py`. Take a look at [this great web page](https://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm) for formulas for some simple/complex SDFs.
+Deliverables: On your website, for each experiment
 
-You'll then use the following equation to render color along a ray:
-
-![Equation for rendering color](ta_images/color.PNG)
-
-where `σ` is density, `Δt` is the length of current ray segment, and `L_e` is color:
-
-![Equation for calculating transmittance](ta_images/transmittance.PNG)
-
-Compute the weights `T * (1 - exp(-σ * Δt))` in `VolumeRenderer._compute_weights`, and perform the summation in `VolumeRenderer._aggregate`. Note that for the first segment `T = 1`. (Hint: using torch.cumprod would be useful in computing the transmittance)
-
-Use weights, and aggregation function to render *color* and *depth* (stored in `RayBundle.sample_lengths`). 
-
-### Visualization
-
-By default, your results will be written out to `images/part_1.gif`. Provide a visualization of the depth in your write-up.
-
+- Describe your procedure 
+- For each task, report test accuracy and visualization on a few samples, in comparison with your results from Q1 & Q2.
+- Provide some interpretation in a few sentences.
+ 
 **Answer-** 
-My visualization for the 360 render of cube and the depth image is as given below:
-<table style="width: 100%; text-align: center;">
-  <tr>
-    <td style="width: 50%;">
-      <figure style="display: inline-block; width: 100%;">
-        <img src="images/part_1.gif" alt="360 degree render of box" />
-        <figcaption>360 degree render of box</figcaption>
-      </figure>
-    </td>
-    <td style="width: 50%;">
-      <figure style="display: inline-block; width: 100%;">
-        <img src="images/part_1_depth.png" alt="Depth image render of box" />
-        <figcaption>Depth image render of box</figcaption>
-      </figure>
-    </td>
-  </tr>
-</table>
+I implemented the rotation experiment where I rotated point clouds by varying degrees and noted down the accuracy for each case. This is important since in a point cloud the orientation of observation by an autonomous agent could be any direction,
 
-Optimizing a basic implicit volume
-===============================================================================
+**implementation:**
 
-Random ray sampling (5 points)
--------------------------------------------------------------------------------
+The algorithm for this is quite simple, a python module calls the relevant rotation_x , rotation_y and rotation_z functions as per the command line arguments passed in the evaluation:
 
-Since you have now implemented a differentiable volume renderer, we can use it to optimize the parameters of a volume! We have provided a basic training loop in the `train` method in `main.py`.
+For example-
+```
+python eval_seg.py --RotationXYZ 150.0 150.0 150.0 --load_checkpoint best_model
+```
 
-Depending on how many sample points we take for each ray, volume rendering can consume a lot of memory on the GPU (especially during the backward pass of gradient descent). Because of this, it usually makes sense to sample a subset of rays from a full image for each training iteration. In order to do this, implement the `get_random_pixels_from_image` method in `ray_utils.py`, invoked here:
+The above command would call all three rotation functions and rotate the point cloud equally around x, y and z axis with the angle values written,
 
 ```python
-xy_grid = get_random_pixels_from_image(cfg.training.batch_size, image_size, camera) # TODO: implement in ray_utils.py
+angle_rad = torch.deg2rad(torch.tensor(angle, dtype=torch.float32)).to(args.device)
+
+rotation_matrix_x = torch.tensor([
+        [1, 0, 0],
+        [0, torch.cos(angle_rad), -torch.sin(angle_rad)],
+        [0, torch.sin(angle_rad), torch.cos(angle_rad)]
+    ], dtype=torch.float32).to(args.device) # Rotation around x axis in rotate_x function
+
+rotation_matrix_y = torch.tensor([
+        [torch.cos(angle_rad), 0, torch.sin(angle_rad)],
+        [0, 1, 0],
+        [-torch.sin(angle_rad), 0, torch.cos(angle_rad)]
+    ], dtype=torch.float32).to(args.device) # Rotation around y axis in rotate_y function
+
+rotation_matrix = torch.tensor([
+    [torch.cos(angle_rad), -torch.sin(angle_rad), 0],
+    [torch.sin(angle_rad), torch.cos(angle_rad), 0],
+    [0, 0, 1]
+], dtype=torch.float32).to(args.device) # Rotation around z axis in rotate_z function
+
+
+rotated_tensor = torch.matmul(input_tensor, rotation_matrix) #Here the rotation matrix 
+#depends on the number of chosen rotations
 ```
-Loss and training (5 points)
--------------------------------------------------------------------------------
-Replace the loss in `train` with mean squared error between the predicted colors and ground truth colors `rgb_gt`.
+### Results
 
-Once you've done this, you can run train a model with
+#### Rotation along X-axis: Classification Results
+The below are the results of rotation around x-axis note the objects below were correctly classified inspite of the rotation, for comparative analysis the same objects were used which were rotated around x,y and z axis all and their results have some failure cases. Please refer the next section. 
 
-```bash
-python main.py --config-name=train_box
-```
+Note the accuracies mentioned in both the tables are overall accuracies over all classes and test examples.
 
-This will optimize the position and side lengths of a box, given a few ground truth images with known camera poses (in the `data` folder). Report the center of the box, and the side lengths of the box after training, rounded to the nearest `1/100` decimal place.
-
-**Answer-** Here is the center of the box and their respective side lengths after training:
-  ```bash
-  Box center: (0.2502206563949585, 0.25057458877563477, -0.00048012484330683947)
-  Box side lengths: (2.005105972290039, 1.503570318222046, 1.5033116340637207)
-  ```
-Visualization
--------------------------------------------------------------------------------
-The code renders a spiral sequence of the optimized volume in `images/part_2.gif`. Compare this gif to the one below, and attach it in your write-up:
-
-**Answer-** Here is the gif of the spiral sequence of the optimized volume compared with TA's output:
-
-<table style="width: 100%; text-align: center;">
+<style>
+  .custom-table {
+    margin-left: -500px; /* Adjust the margin to your preference */
+    width: calc(250%);
+    text-align: left;
+    border-collapse: collapse;
+  }
+  .custom-table th, .custom-table td {
+    width: 16%;
+    padding: 8px;
+    border: 1px solid #ccc;73.97
+  }
+  .custom-table figure {
+    margin: 0; /* Remove default margins around figures */
+  }
+  .custom-table img {
+    width: 100%; /* Make the images fill their container */
+  }
+</style>
+<table class="custom-table" style="text-align: center;">
   <tr>
-    <td style="width: 50%;">
+    <th>Rotation by 15 degrees</th>
+    <th>Rotation by 30 degrees</th>
+    <th>Rotation by 45 degrees</th>
+    <th>Rotation by 90 degrees</th>
+    <th>Rotation by 120 degrees</th>
+    <th>Rotation by 180 degrees</th>
+  </tr>
+  <tr>
+    <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="images/part_2.gif" alt="360 degree render of the optimized volume with random sampling" />
-        <figcaption>360 degree render of the optimized volume with random sampling (My output)</figcaption>
+        <img src="output/cls/RotationX_15.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render 15 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 15 degrees rotation</figcaption>
       </figure>
     </td>
-    <td style="width: 50%;">
+    <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="ta_images/part_2.gif" alt="TA's output for Part 2" />
-        <figcaption>TA's output for Part 2</figcaption>
+        <img src="output/cls/RotationX_15.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 30 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 30 degrees rotation</figcaption>
       </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_45.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 45 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_90.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 90 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_120.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 15 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_180.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 180 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_15.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render 15 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_30.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 30 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_45.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 45 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_90.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 90 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_120.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 15 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_180.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 180 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_15.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render 15 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_30.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 30 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_45.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 45 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_90.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 90 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_120.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 15 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_180.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 180 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 94.13 %</strong>
+        </font>
+      </p>73.97
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 83.31 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 60.33 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 32.53 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 40.39 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 73.97 %</strong>
+        </font>
+      </p>
     </td>
   </tr>
 </table>
 
-Optimizing a Neural Radiance Field (NeRF) (30 points)
-===============================================================================
+#### Rotation along X,Y, and Z-axis: Classification Results
+Note for this results the rotation around x y and z axis angles have the same magnitude. The model here also struggles to make predictions when the rotation is significantly higher, this may be due to data augmentation which is absent during training process and the neural network's exposure to such oblique configurations is limited during training.
 
-In this part, you will implement an implicit volume as a Multi-Layer Perceptron (MLP) in the `NeuraRadianceField` class in `implicit.py`. This MLP should map 3D position to volume density and color. Specifically:
+As mentioned earlier this model uses the same point clouds and it can be easily seen that there are failure cases in chair object.
 
-1. Your MLP should take in a `RayBundle` object in its forward method, and produce color and density for each sample point in the RayBundle.
-2. You should also fill out the loss in `train_nerf` in the `main.py` file.
-
-You will then use this implicit volume to optimize a scene from a set of RGB images. We have implemented data loading, training, checkpointing for you, but this part will still require you to do a bit more legwork than for Parts 1 and 2. You will have to write the code for the MLP yourself --- feel free to reference the NeRF paper, though you should not directly copy code from an external repository.
-
-Implementation
--------------------------------------------------------------------------------
-Here are a few things to note:
-
-1. For now, your NeRF MLP does not need to handle *view dependence*, and can solely depend on 3D position.
-2. You should use the `ReLU` activation to map the first network output to density (to ensure that density is non-negative)
-3. You should use the `Sigmoid` activation to map the remaining raw network outputs to color
-4. You can use *Positional Encoding* of the input to the network to achieve higher quality. We provide an implementation of positional encoding in the `HarmonicEmbedding` class in `implicit.py`.
-
-**Answer-** Here's the model that I implemented using HarmonicEmbedding for positional encoding and I used the MLP architecture MLPwithskips given in the starter code as given below:
-
-```BASH
-Nerf model:-
-Model(
-  (implicit_fn): NeuralRadianceField(
-    (harmonic_embedding_xyz): HarmonicEmbedding()
-    (MultiLP): MLPWithInputSkips(
-      (mlp): ModuleList(
-        (0): Sequential(
-          (0): Linear(in_features=39, out_features=128, bias=True)
-          (1): ReLU(inplace=True)
-        )
-        (1): Sequential(
-          (0): Linear(in_features=128, out_features=128, bias=True)
-          (1): ReLU(inplace=True)
-        )
-        (2): Sequential(
-          (0): Linear(in_features=128, out_features=128, bias=True)
-          (1): ReLU(inplace=True)
-        )
-        (3): Sequential(
-          (0): Linear(in_features=167, out_features=128, bias=True)
-          (1): ReLU(inplace=True)
-        )
-        (4): Sequential(
-          (0): Linear(in_features=128, out_features=128, bias=True)
-          (1): ReLU(inplace=True)
-        )
-        (5): Sequential(
-          (0): Linear(in_features=128, out_features=128, bias=True)
-          (1): ReLU(inplace=True)
-        )
-      )
-    )
-    (relu): ReLU()
-    (sigmoid): Sigmoid()
-    (linear1): Linear(in_features=128, out_features=4, bias=True)
-  )
-  (sampler): StratifiedRaysampler()
-  (renderer): VolumeRenderer()
-)
-```
-Visualization
--------------------------------------------------------------------------------
-You can train a NeRF on the lego bulldozer dataset with
-
-```bash
-python main.py --config-name=nerf_lego
-```
-
-This will create a NeRF with the `NeuralRadianceField` class in `implicit.py`, and use it as the `implicit_fn` in `VolumeRenderer`. It will also train a NeRF for 250 epochs on 128x128 images.
-
-Feel free to modify the experimental settings in `configs/nerf_lego.yaml` --- though the current settings should allow you to train a NeRF on low-resolution inputs in a reasonable amount of time. After training, a spiral rendering will be written to `images/part_3.gif`. Report your results. It should look something like this:
-
-**Answer-** Here is the gif of the spiral sequence of the optimized volume compared with TA's output:
-<table style="width: 100%; text-align: center;">
+<style>
+  .custom-table {
+    margin-left: -500px; /* Adjust the margin to your preference */
+    width: calc(250%);
+    text-align: left;
+    border-collapse: collapse;
+  }
+  .custom-table th, .custom-table td {
+    width: 16%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Prevents the border from affecting layout */
+  }
+  .custom-table figure {
+    margin: 0; /* Remove default margins around figures */
+  }
+  .custom-table img {
+    width: 100%; /* Make the images fill their container */
+  }
+</style>
+<table class="custom-table" style="text-align: center;">
   <tr>
-    <td style="width: 50%;">
+    <th>Rotation by 15 degrees</th>
+    <th>Rotation by 30 degrees</th>
+    <th>Rotation by 45 degrees</th>
+    <th>Rotation by 90 degrees</th>
+    <th>Rotation by 120 degrees</th>
+    <th>Rotation by 180 degrees</th>
+  </tr>
+  <tr>
+    <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="images/part_3.gif" alt="360 degree render of the Lego Bulldozer" />
-        <figcaption>360 degree render of the Lego Bulldozer (My output)</figcaption>
+        <img src="output/cls/RotationXYZ_15.0_15.0_15.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render 15 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 15 degrees rotation</figcaption>
       </figure>
     </td>
-    <td style="width: 50%;">
+    <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="ta_images/part_3.gif" alt="TA's output for Part 2" />
-        <figcaption>TA's output for Part 3</figcaption>
+        <img src="output/cls/RotationXYZ_30.0_30.0_30.0/chair/fail/batchidx6cls14Pred_vases_GT_chair.gif" alt="Chair 14 360 degree render at 30 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 30 degrees rotation (Failed: Predicted class Vase)</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_45.0_45.0_45.0/chair/fail/batchidx6cls14Pred_vases_GT_chair.gif" alt="Chair 14 360 degree render at 45 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 45 degrees rotation (Failed: Predicted class Vase)</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_90.0_90.0_90.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 90 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_120.0_120.0_120.0/chair/fail/batchidx6cls14Pred_lamps_GT_chair.gif" alt="Chair 14 360 degree render at 15 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 120 degrees rotation (Failed: Predicted class Lamp)</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_180.0_180.0_180.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 180 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 180 degrees rotation</figcaption>
       </figure>
     </td>
   </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_15.0_15.0_15.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render 15 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_30.0_30.0_30.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 30 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_45.0_45.0_45.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 45 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_90.0_90.0_90.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 90 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_120.0_120.0_120.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 15 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_180.0_180.0_180.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 180 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_15.0_15.0_15.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render 15 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_30.0_30.0_30.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 30 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_45.0_45.0_45.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 45 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_90.0_90.0_90.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 90 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_120.0_120.0_120.0/lamps/fail/batchidx24cls4Pred_chair_GT_lamps.gif" alt="Lamp 4 360 degree render at 15 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 120 degrees rotation (Failed: Predicted class Chair)</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationXYZ_180.0_180.0_180.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 180 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 91.18 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 37.04 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 22.98 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy :78.90 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 20.77 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 97.69 %</strong>
+        </font>
+      </p>
+    </td>
+  </tr>
 </table>
+
+#### Rotation along X axis: Segmentation Results
+
+<style>
+  .custom-table {
+    margin-left: -500px; /* Adjust the margin to your preference */
+    width: calc(250%);
+    text-align: left;
+    border-collapse: collapse;
+  }
+  .custom-table th, .custom-table td {
+    width: 16%;
+    padding: 8px;
+    border: 1px solid #ccc;73.97
+  }
+  .custom-table figure {
+    margin: 0; /* Remove default margins around figures */
+  }
+  .custom-table img {
+    width: 100%; /* Make the images fill their container */
+  }
+</style>
+<table class="custom-table" style="text-align: center;">
+  <tr>
+    <th>Rotation by 15 degrees</th>
+    <th>Rotation by 30 degrees</th>
+    <th>Rotation by 45 degrees</th>
+    <th>Rotation by 90 degrees</th>
+    <th>Rotation by 120 degrees</th>
+    <th>Rotation by 180 degrees</th>
+  </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_15.0/success/gt_6_14.gif" alt="Chair 14 360 degree render 15 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_30.0/success/gt_6_14.gif" alt="Chair 14 360 degree render at 30 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_45.0/success/gt_6_14.gif" alt="Chair 14 360 degree render at 45 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_90.0/fail/gt_6_14.gif" alt="Chair 14 360 degree render at 90 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_120.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 15 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_180.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 180 degrees rotation" />
+        <figcaption>Chair 14 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_15.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render 15 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_30.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 30 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_45.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 45 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_90.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 90 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_120.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 15 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_180.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 180 degrees rotation" />
+        <figcaption>Vase 0 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_15.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render 15 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 15 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_30.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 30 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 30 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_45.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 45 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 45 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_90.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 90 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 90 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_120.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 15 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 120 degrees rotation</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/cls/RotationX_180.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 180 degrees rotation" />
+        <figcaption>Lamp 4 360 degree render at 180 degrees rotation</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 94.13 %</strong>
+        </font>
+      </p>73.97
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 83.31 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 60.33 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 32.53 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 40.39 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 73.97 %</strong>
+        </font>
+      </p>
+    </td>
+  </tr>
+</table>
+
+
 
 <!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js" charset="utf-8"></script><script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>

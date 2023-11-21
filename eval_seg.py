@@ -22,11 +22,11 @@ def create_parser():
     parser.add_argument('--task', type=str, default="seg", help='The task: cls or seg')
     parser.add_argument('--cluster', type=bool, default=False, help="If true then it will assume that you're in cluster and run the program accordingly")
     # Rotation arguments
-    parser.add_argument('--RotationX', type=float, default=0.0, help='Input the amount of rotation along x-axis')
-    parser.add_argument('--RotationXYZ', type=float, nargs=3, default=[0.0, 0.0, 0.0], help='Input the amount of rotation along x, y, and z axes')
-    parser.add_argument('--RotationXY', type=float, nargs=3, default=[0.0, 0.0], help='Input the amount of rotation along x, y, and z axes')
-    parser.add_argument('--RotationYZ', type=float, nargs=2, default=[0.0, 0.0], help='Input the amount of rotation along y, and z axes')
-    parser.add_argument('--RotationXZ', type=float, nargs=2, default=[0.0, 0.0], help='Input the amount of rotation along x, and z axes')
+    parser.add_argument('--RotationX', type=float, default=None, help='Input the amount of rotation along x-axis')
+    parser.add_argument('--RotationXYZ', type=float, nargs=3, default=None, help='Input the amount of rotation along x, y, and z axes')
+    parser.add_argument('--RotationXY', type=float, nargs=3, default=None, help='Input the amount of rotation along x, y, and z axes')
+    parser.add_argument('--RotationYZ', type=float, nargs=2, default=None, help='Input the amount of rotation along y, and z axes')
+    parser.add_argument('--RotationXZ', type=float, nargs=2, default=None, help='Input the amount of rotation along x, and z axes')
     args = parser.parse_args()
     if (args.cluster == True):
         parser.add_argument('--test_data', type=str, default='/fs/class-projects/fall2023/cmsc848f/c848f010/data/seg/data_test.npy')
@@ -63,6 +63,8 @@ def apply_rotations(batch_data, args):
 
 
 if __name__ == '__main__':
+    dirnames = []
+    dirnames_gt = []
     parser = create_parser()
     args = parser.parse_args()
     args.device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
@@ -140,8 +142,10 @@ if __name__ == '__main__':
                 else:
                     success_dir = os.path.join(args.output_dir, 'success')
                 create_dir(success_dir)
-                viz_seg(batch_data[idx], pred_label[idx], os.path.join(success_dir, f"pred_{i}_{idx}.gif"), args.device, args)
-                viz_seg(batch_data[idx], batch_label[idx], os.path.join(success_dir, f"gt_{i}_{idx}.gif"), args.device, args)
+                dirnames.append(os.path.join(success_dir, f"pred_{i}_{idx}.gif"))
+                dirnames_gt.append(os.path.join(success_dir, f"gt_{i}_{idx}.gif"))
+                viz_seg(rotated_data[idx], pred_label[idx], os.path.join(success_dir, f"pred_{i}_{idx}.gif"), args.device, args)
+                viz_seg(rotated_data[idx], batch_label[idx], os.path.join(success_dir, f"gt_{i}_{idx}.gif"), args.device, args)
             # Save visualizations for objects with accuracy < 50%
             else:
                 if rotation_flag:
@@ -149,8 +153,10 @@ if __name__ == '__main__':
                 else:
                     fail_dir = os.path.join(args.output_dir, 'fail')
                 create_dir(fail_dir)
-                viz_seg(batch_data[idx], pred_label[idx], os.path.join(fail_dir, f"pred_{i}_{idx}.gif"), args.device, args)
-                viz_seg(batch_data[idx], batch_label[idx], os.path.join(fail_dir, f"gt_{i}_{idx}.gif"), args.device, args)
+                dirnames.append(os.path.join(fail_dir, f"pred_{i}_{idx}.gif"))
+                dirnames_gt.append(os.path.join(fail_dir, f"gt_{i}_{idx}.gif"))
+                viz_seg(rotated_data[idx], pred_label[idx], os.path.join(fail_dir, f"pred_{i}_{idx}.gif"), args.device, args)
+                viz_seg(rotated_data[idx], batch_label[idx], os.path.join(fail_dir, f"gt_{i}_{idx}.gif"), args.device, args)
 
 
 
@@ -187,11 +193,11 @@ if __name__ == '__main__':
     else:
         csv_file_path = os.path.join(args.output_dir, 'accuracies.csv')
     with open(csv_file_path, 'w', newline='') as csvfile:
-        fieldnames = ['Object Index', 'Accuracy']
+        fieldnames = ['Object Index', 'Accuracy', 'NameofFiles_preds', 'NameofFiles_GTs']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for i, acc in enumerate(accuracies):
-            writer.writerow({'Object Index': i, 'Accuracy': acc})
+            writer.writerow({'Object Index': i, 'Accuracy': acc, 'NameofFiles_preds': dirnames[i], 'NameofFiles_GTs': dirnames_gt[i]})
 
     print(f'Accuracies exported to {csv_file_path}')
 
