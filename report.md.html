@@ -1217,26 +1217,34 @@ As mentioned earlier this model uses the same point clouds and it can be easily 
 #### Rotation along X axis: Segmentation Results
 
 <style>
-  .custom-table {
+  .custom-table1 {
     margin-left: -500px; /* Adjust the margin to your preference */
     width: calc(250%);
     text-align: left;
     border-collapse: collapse;
   }
-  .custom-table th, .custom-table td {
-    width: 16%;
-    padding: 8px;
-    border: 1px solid #ccc;73.97
+  .custom-table1 th, .custom-table td {
+    padding: 2px;
+    border: 1px solid #ccc;
   }
-  .custom-table figure {
+  .custom-table1 th:first-child,
+  .custom-table1 td:first-child {
+    width: 0.05%; /* Set the width for the first column (Angles) */
+  }
+  .custom-table1 th:not(:first-child),
+  .custom-table1 td:not(:first-child) {
+    width: 12%; /* Set the width for the rest of the columns */
+  }
+  .custom-table1 figure {
     margin: 0; /* Remove default margins around figures */
   }
-  .custom-table img {
+  .custom-table1 img {
     width: 100%; /* Make the images fill their container */
   }
 </style>
-<table class="custom-table" style="text-align: center;">
+<table class="custom-table1" style="text-align: center;">
   <tr>
+    <th> Angles</th>
     <th>Rotation by 15 degrees</th>
     <th>Rotation by 30 degrees</th>
     <th>Rotation by 45 degrees</th>
@@ -1246,125 +1254,295 @@ As mentioned earlier this model uses the same point clouds and it can be easily 
   </tr>
   <tr>
     <td>
+      <p>
+        <font size = "2.5">
+          <strong>Ground Truth</strong>
+        </font>
+      </p>
+    </td>
+    <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/segRotationX_15.0/success/gt_6_14.gif" alt="Chair 14 360 degree render 15 degrees rotation" />
-        <figcaption>Chair 14 360 degree render at 15 degrees rotation</figcaption>
+        <img src="output/segRotationX_15.0/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 15 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 15 degrees</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/segRotationX_30.0/success/gt_6_14.gif" alt="Chair 14 360 degree render at 30 degrees rotation" />
-        <figcaption>Chair 14 360 degree render at 30 degrees rotation</figcaption>
+        <img src="output/segRotationX_30.0/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 30 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 30 degrees</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/segRotationX_45.0/success/gt_6_14.gif" alt="Chair 14 360 degree render at 45 degrees rotation" />
-        <figcaption>Chair 14 360 degree render at 45 degrees rotation</figcaption>
+        <img src="output/segRotationX_45.0/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 45 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 45 degrees</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/segRotationX_90.0/fail/gt_6_14.gif" alt="Chair 14 360 degree render at 90 degrees rotation" />
-        <figcaption>Chair 14 360 degree render at 90 degrees rotation</figcaption>
+        <img src="output/segRotationX_90.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 90 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 90 degrees</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_120.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 15 degrees rotation" />
-        <figcaption>Chair 14 360 degree render at 120 degrees rotation</figcaption>
+        <img src="output/segRotationX_120.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 120 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 120 degrees</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_180.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at 180 degrees rotation" />
-        <figcaption>Chair 14 360 degree render at 180 degrees rotation</figcaption>
-      </figure>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_15.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render 15 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 15 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_30.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 30 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 30 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_45.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 45 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 45 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_90.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 90 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 90 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_120.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 15 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 120 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_180.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 180 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 180 degrees rotation</figcaption>
-      </figure>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_15.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render 15 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 15 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_30.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 30 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 30 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_45.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 45 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 45 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_90.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 90 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 90 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_120.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 15 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 120 degrees rotation</figcaption>
-      </figure>
-    </td>
-    <td>
-      <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_180.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 180 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 180 degrees rotation</figcaption>
+        <img src="output/segRotationX_180.0/fail/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render rotated by 180 degrees" />
+        <figcaption>GT Chair 6 batch 14 360° render rotated by 180 degrees</figcaption>
       </figure>
     </td>
   </tr>
   <tr>
     <td>
       <p>
+        <font size = "2.5">
+          <strong> Prediction</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_15.0/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 15 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_30.0/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 30 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_45.0/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 45 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_90.0/fail/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 90 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_120.0/fail/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 120 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_180.0/fail/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 180 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td><p>
+      <font size = "2.5">
+        <strong>Instance Accuracies</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 89.1 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 85.67 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 80.39 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 16.76 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 15.3 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 31.18 %</strong>
+      </font>
+    </p>
+  </td>
+  </tr>
+
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong>Ground Truth</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_15.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 15 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_30.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 30 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_45.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 45 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_90.0/fail/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 90 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_120.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 120 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_180.0/success/gt_17_5.gif" alt="GT Chair 5 batch 17 360° render rotated by 180 degrees" />
+        <figcaption>GT Chair 5 batch 17 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong> Prediction</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_15.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 15 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 15 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_30.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 30 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 30 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_45.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 45 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 45 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_90.0/fail/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 90 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 90 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_120.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 120 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 120 degrees</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segRotationX_180.0/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render rotated by 180 degrees" />
+        <figcaption>Predicted Chair 6 batch 14 360° render rotated by 180 degrees</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td><p>
+      <font size = "2.5">
+        <strong>Instance Accuracies</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 89.1 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 85.67 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 80.39 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 16.76 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 15.3 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 31.18 %</strong>
+      </font>
+    </p>
+  </td>
+  </tr>
+
+
+  
+  <tr>
+    <td>
+      <p>
         <font size = "5">
           <strong> Test accuracy : 94.13 %</strong>
         </font>
-      </p>73.97
+      </p>
     </td>
     <td>
       <p>
