@@ -1594,7 +1594,9 @@ The following are the results of the point cloud segmentation with rotation arou
 
 #### Rotation along XYZ axis: Segmentation Results
 
-The following are the results of the point cloud segmentation with rotation around xyz-axis by the same amount of rotation angles around all three axis, notice how the instance accuracies and the overall accuracies decreases with increase in angle. The same reason of unseen data due to not using data augmentation can be attributed to such a performance of segmentation. More results with x,y and z rotations are in the following section after this one.
+The following are the results of the point cloud segmentation with rotation around xyz-axis by the same amount of rotation angles around all three axis, notice how the instance accuracies and the overall accuracies decreases with increase in angle with the only exception of 180 degrees rotation where the object is essentially rotated to the same orientation due to equidistant rotation. The same reason of unseen data due to not using data augmentation can be attributed to such a performance of segmentation. More results with x,y and z rotations are in the following section after this one.
+
+Also note that the reduction in comparative instance accuracies with just X axis and XYZ axis rotation also shows that the need of augmentation of data.
 
 <style>
   .custom-table1 {
