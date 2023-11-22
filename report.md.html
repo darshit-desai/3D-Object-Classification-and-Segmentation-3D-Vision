@@ -1584,6 +1584,8 @@ The following are the results of the point cloud segmentation with rotation arou
 
 The following are the results of the point cloud segmentation with rotation around xyz-axis by the same amount of rotation angles around all three axis, notice how the instance accuracies and the overall accuracies decreases with increase in angle with the only exception of 180 degrees rotation where the object is essentially rotated to the same orientation due to equidistant rotation. The same reason of unseen data due to not using data augmentation can be attributed to such a performance of segmentation. More results with x,y and z rotations are in the following section after this one.
 
+In the segmentation task, the model is highly dependant on spatial features. The model always segments the lower end of the pointcloud as chair legs, even for some conventional chair structures. 
+
 Also note that the reduction in comparative instance accuracies with just X axis and XYZ axis rotation also shows that the need of augmentation of data.
 
 <style>
@@ -1970,6 +1972,7 @@ I input a different number of points per object by changing the --num_points arg
 ##### Varying Number of Points: Classification Results
 
 The model is pretty robust to sparse point clouds. Even with just 10 points, the accuracy is 25% for just 10 points and climbs to 82% with just 50 points. It is however possible that with more classes, the accuracy drops with sparser points.
+
 
 <style>
   .custom-table {
@@ -2536,5 +2539,6 @@ The segmentation results show that for a lesser number of points the accuracy te
   </tr>
 </table>
 
+Another set of experiments which could be done were adding noise to the point clouds to check the classification performance which more often happens in real world with noisy sensors
 
 <!-- Markdeep: --><style class="fallback">body{visibility:hidden;white-space:pre;font-family:monospace}</style><script src="markdeep.min.js" charset="utf-8"></script><script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script><script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
