@@ -1,5 +1,7 @@
  ##  1. Code Running Instructions
 
+ For referring the detailed report and results follow this webpage : https://darshit-desai.github.io/3D-Object-Classification-and-Segmentation-3D-Vision/
+
 ### For Problem 1 and 2 training
 
 ```bash
