@@ -13,7 +13,7 @@ def create_parser():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--num_cls_class', type=int, default=3, help='The number of classes')
-    parser.add_argument('--num_points', type=int, default=10000, help='The number of points per object to be included in the input data')
+    parser.add_argument('--num_points', type=int, default=None, help='The number of points per object to be included in the input data')
 
     # Directories and checkpoint/sample iterations
     parser.add_argument('--load_checkpoint', type=str, default='model_epoch_0')
@@ -70,6 +70,10 @@ def apply_rotations(batch_data, args):
 if __name__ == '__main__':
     parser = create_parser()
     args = parser.parse_args()
+    if args.num_points is not None:
+        args.output_dir = args.output_dir+f'/num_points_{args.num_points}/'
+    elif args.num_points == None:
+        args.num_points = 10000
     args.device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
 
     create_dir(args.output_dir)
@@ -97,8 +101,15 @@ if __name__ == '__main__':
         batch_data, batch_label = batch
         batch_data = batch_data.to(args.device)
         batch_label = batch_label.to(args.device)
+        
+        selected_indices = torch.randint(0, batch_data.shape[1],(args.num_points,))
+        # print(selected_indices)
+        # Update batch_data and batch_label with selected points
+        batch_data = batch_data[:, selected_indices, :]
+        batch_label = batch_label[:, selected_indices]
+        # print(batch_data.shape)
+        # print(batch_label.shape)
         rotated_data = apply_rotations(batch_data, args)
-
         # Generate dynamic output directory based on rotations, angle values, and class only if any rotation argument is passed
         if rotation_flag:
             if args.RotationX:

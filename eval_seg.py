@@ -105,15 +105,15 @@ if __name__ == '__main__':
                 
         batch_data = batch_data.to(args.device)
         batch_label = batch_label.to(args.device)
-        print(batch_data.shape)
-        print(batch_label.shape)
+        # print(batch_data.shape)
+        # print(batch_label.shape)
         selected_indices = torch.randint(0, batch_data.shape[1],(args.num_points,))
-        print(selected_indices)
+        # print(selected_indices)
         # Update batch_data and batch_label with selected points
         batch_data = batch_data[:, selected_indices, :]
         batch_label = batch_label[:, selected_indices]
-        print(batch_data.shape)
-        print(batch_label.shape)
+        # print(batch_data.shape)
+        # print(batch_label.shape)
         
 
         # Generate dynamic output directory based on rotations, angle values, and class only if any rotation argument is passed
