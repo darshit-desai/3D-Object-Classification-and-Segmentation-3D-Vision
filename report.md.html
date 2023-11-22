@@ -982,7 +982,7 @@ Note the accuracies mentioned in both the tables are overall accuracies over all
         <font size = "5">
           <strong> Test accuracy : 94.13 %</strong>
         </font>
-      </p>73.97
+      </p>
     </td>
     <td>
       <p>
@@ -1983,6 +1983,8 @@ I input a different number of points per object by changing the --num_points arg
 
 ##### Varying Number of Points: Classification Results
 
+The model is pretty robust to sparse point clouds. Even with just 10 points, the accuracy is 25% for just 10 points and climbs to 82% with just 50 points. It is however possible that with more classes, the accuracy drops with sparser points.
+
 <style>
   .custom-table {
     margin-left: -500px; /* Adjust the margin to your preference */
@@ -2014,37 +2016,37 @@ I input a different number of points per object by changing the --num_points arg
   <tr>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_15.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 10" />
-        <figcaption>Chair 14 360 degree render at No. of Points = 10</figcaption>
+        <img src="output/cls/num_points_10/chair/fail/batchidx6cls14Pred_lamps_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 10" />
+        <figcaption>Chair 14 360 degree render at No. of Points = 10 (Failed: Predicted class Lamps)</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_15.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 50" />
+        <img src="output/cls/num_points_50/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 50" />
         <figcaption>Chair 14 360 degree render at No. of Points = 50</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_45.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 250" />
+        <img src="output/cls/num_points_250/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 250" />
         <figcaption>Chair 14 360 degree render aat No. of Points = 250</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_90.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 1000" />
+        <img src="output/cls/num_points_1000/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 1000" />
         <figcaption>Chair 14 360 degree render at No. of Points = 1000</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_120.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 2500" />
+        <img src="output/cls/num_points_2500/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 2500" />
         <figcaption>Chair 14 360 degree render at No. of Points = 2500</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_180.0/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 10000" />
+        <img src="output/cls/chair/batchidx6cls14Pred_chair_GT_chair.gif" alt="Chair 14 360 degree render at No. of Points = 10000" />
         <figcaption>Chair 14 360 degree render at No. of Points = 10000</figcaption>
       </figure>
     </td>
@@ -2052,76 +2054,76 @@ I input a different number of points per object by changing the --num_points arg
   <tr>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_15.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 10" />
-        <figcaption>Vase 0 360 degree render at No. of Points = 10</figcaption>
+        <img src="output/cls/num_points_10/vases/fail/batchidx20cls0Pred_lamps_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 10" />
+        <figcaption>Vase 0 360 degree render at No. of Points = 10 (Failed: Predicted class Lamps)</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_30.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 50" />
-        <figcaption>Vase 0 360 degree render at No. of Points = 50</figcaption>
+        <img src="output/cls/num_points_50/vases/fail/batchidx20cls0Pred_lamps_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 50" />
+        <figcaption>Vase 0 360 degree render at No. of Points = 50 (Failed: Predicted class Lamps)</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_45.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 45 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 45 degrees rotation</figcaption>
+        <img src="output/cls/num_points_250/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 250" />
+        <figcaption>Vase 0 360 degree render at No. of Points = 250</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_90.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 90 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 90 degrees rotation</figcaption>
+        <img src="output/cls/num_points_1000/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 1000" />
+        <figcaption>Vase 0 360 degree render at No. of Points = 1000</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_120.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 15 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 120 degrees rotation</figcaption>
+        <img src="output/cls/num_points_2500/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 2500" />
+        <figcaption>Vase 0 360 degree render at No. of Points = 2500</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_180.0/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at 180 degrees rotation" />
-        <figcaption>Vase 0 360 degree render at 180 degrees rotation</figcaption>
+        <img src="output/cls/vases/batchidx20cls0Pred_vases_GT_vases.gif" alt="Vase 0 360 degree render at No. of Points = 10000" />
+        <figcaption>Vase 0 360 degree render at No. of Points = 10000</figcaption>
       </figure>
     </td>
   </tr>
   <tr>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_15.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render 15 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 15 degrees rotation</figcaption>
+        <img src="output/cls/num_points_10/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at No. of Points = 10" />
+        <figcaption>Lamp 4 360 degree render at No. of Points = 10</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_30.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 30 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 30 degrees rotation</figcaption>
+        <img src="output/cls/num_points_50/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at No. of Points = 50" />
+        <figcaption>Lamp 4 360 degree render at No. of Points = 50</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_45.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 45 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 45 degrees rotation</figcaption>
+        <img src="output/cls/num_points_250/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at No. of Points = 250" />
+        <figcaption>Lamp 4 360 degree render at No. of Points = 250</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_90.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 90 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 90 degrees rotation</figcaption>
+        <img src="output/cls/num_points_1000/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at No. of Points = 1000" />
+        <figcaption>Lamp 4 360 degree render at No. of Points = 1000</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_120.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 15 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 120 degrees rotation</figcaption>
+        <img src="output/cls/num_points_2500/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at No. of Points = 2500" />
+        <figcaption>Lamp 4 360 degree render at No. of Points = 2500</figcaption>
       </figure>
     </td>
     <td>
       <figure style="display: inline-block; width: 100%;">
-        <img src="output/cls/RotationX_180.0/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at 180 degrees rotation" />
-        <figcaption>Lamp 4 360 degree render at 180 degrees rotation</figcaption>
+        <img src="output/cls/lamps/batchidx24cls4Pred_lamps_GT_lamps.gif" alt="Lamp 4 360 degree render at No. of Points = 10000" />
+        <figcaption>Lamp 4 360 degree render at No. of Points = 10000</figcaption>
       </figure>
     </td>
   </tr>
@@ -2129,42 +2131,419 @@ I input a different number of points per object by changing the --num_points arg
     <td>
       <p>
         <font size = "5">
-          <strong> Test accuracy : 94.13 %</strong>
-        </font>
-      </p>73.97
-    </td>
-    <td>
-      <p>
-        <font size = "5">
-          <strong> Test accuracy : 83.31 %</strong>
+          <strong> Test accuracy : 26.76 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
         <font size = "5">
-          <strong> Test accuracy : 60.33 %</strong>
+          <strong> Test accuracy : 82.06 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
         <font size = "5">
-          <strong> Test accuracy : 32.53 %</strong>
+          <strong> Test accuracy : 96.12 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
         <font size = "5">
-          <strong> Test accuracy : 40.39 %</strong>
+          <strong> Test accuracy : 97.27 %</strong>
         </font>
       </p>
     </td>
     <td>
       <p>
         <font size = "5">
-          <strong> Test accuracy : 73.97 %</strong>
+          <strong> Test accuracy : 97.27 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "5">
+          <strong> Test accuracy : 97.69 %</strong>
+        </font>
+      </p>
+    </td>
+  </tr>
+</table>
+
+##### Varying Number of Points: Segmentation Results
+
+The segmentation results show that for a lesser number of points the accuracy tends to increase linearly because there are less number of gt classes which mismatch and with higher number of points the accuracy plateau's as it has a more global feature context embedded in the segmentation.
+
+<style>
+  .custom-table1 {
+    margin-left: -500px; /* Adjust the margin to your preference */
+    width: calc(250%);
+    text-align: left;
+    border-collapse: collapse;
+  }
+  .custom-table1 th, .custom-table td {
+    padding: 2px;
+    border: 1px solid #ccc;
+  }
+  .custom-table1 th:first-child,
+  .custom-table1 td:first-child {
+    width: 0.05%; /* Set the width for the first column (Angles) */
+  }
+  .custom-table1 th:not(:first-child),
+  .custom-table1 td:not(:first-child) {
+    width: 12%; /* Set the width for the rest of the columns */
+  }
+  .custom-table1 figure {
+    margin: 0; /* Remove default margins around figures */
+  }
+  .custom-table1 img {
+    width: 100%; /* Make the images fill their container */
+  }
+</style>
+<table class="custom-table1" style="text-align: center;">
+  <tr>
+    <th> No. of points</th>
+    <th>No. of points = 10</th>
+    <th>No. of points = 50</th>
+    <th>No. of points = 250</th>
+    <th>No. of points = 1000</th>
+    <th>No. of points = 2500</th>
+    <th>No. of points = 10000</th>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong>Ground Truth</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_10/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render at No. of points=10" />
+        <figcaption>GT Chair 6 batch 14 360° render at No. of points=10</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_50/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render at No. of points=50" />
+        <figcaption>GT Chair 6 batch 14 360° render at No. of points=50</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_250/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render at No. of points=250" />
+        <figcaption>GT Chair 6 batch 14 360° render at No. of points=250</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_1000/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render at No. of points=1000" />
+        <figcaption>GT Chair 6 batch 14 360° render at No. of points=1000</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_2500/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render at No. of points=2500" />
+        <figcaption>GT Chair 6 batch 14 360° render at No. of points=2500</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_6_14.gif" alt="GT Chair 6 batch 14 360° render at No. of points=10000" />
+        <figcaption>GT Chair 6 batch 14 360° render at No. of points=10000</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong> Prediction</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_10/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=10" />
+        <figcaption>Predicted Chair 6 batch 14 360° render at No. of points=10</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_50/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=50" />
+        <figcaption>Predicted Chair 6 batch 14 360° render at No. of points=50</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_250/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=250" />
+        <figcaption>Predicted Chair 6 batch 14 360° render at No. of points=250</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_1000/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=1000" />
+        <figcaption>Predicted Chair 6 batch 14 360° render at No. of points=1000</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_2500/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=2500" />
+        <figcaption>Predicted Chair 6 batch 14 360° render at No. of points=2500</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_6_14.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=10000" />
+        <figcaption>Predicted Chair 6 batch 14 360° render at No. of points=10000</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td><p>
+      <font size = "2.5">
+        <strong>Instance Accuracies</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 80.0 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 85.9 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 94.0 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 88.9 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 91.84 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 90.93 %</strong>
+      </font>
+    </p>
+  </td>
+  </tr>
+
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong>Ground Truth</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_10/fail/gt_17_5.gif" alt="Predicted Chair 5 batch 17 360° render at No. of points=10" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=10</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_50/success/gt_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=50" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=50</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_250/success/gt_17_5.gif" alt="Predicted Chair 5 batch 17 360° render at No. of points=10" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=250</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_1000/success/gt_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=1000" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=1000</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_2500/success/gt_17_5.gif" alt="Predicted Chair 5 batch 17 360° render at No. of points=2500" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=2500</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/gt_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=10000" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=10000</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <font size = "2.5">
+          <strong> Prediction</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_10/fail/pred_17_5.gif" alt="Predicted Chair 5 batch 17 360° render at No. of points=10" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=10</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_50/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=50" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=50</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_250/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=250" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=250</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_1000/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=1000" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=1000</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/segnum_points_2500/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=2500" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=2500</figcaption>
+      </figure>
+    </td>
+    <td>
+      <figure style="display: inline-block; width: 100%;">
+        <img src="output/seg/success/pred_17_5.gif" alt="Predicted Chair 6 batch 14 360° render at No. of points=10000" />
+        <figcaption>Predicted Chair 5 batch 17 360° render at No. of points=10000</figcaption>
+      </figure>
+    </td>
+  </tr>
+  <tr>
+    <td><p>
+      <font size = "2.5">
+        <strong>Instance Accuracies</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 30.0 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 59.96 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 95.2 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 98.3 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 86.2 %</strong>
+      </font>
+    </p>
+  </td>
+  <td>
+    <p>
+      <font size = "4.0">
+        <strong>Instance Accuracy: 88.92 %</strong>
+      </font>
+    </p>
+  </td>
+  </tr>
+
+
+  
+  <tr>
+    <td>
+      <p>
+        <font size = "3.5">
+          <strong> Overall Test Accuracies</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 63.74 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 77.49 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 85.52 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 89.59 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 90.42 %</strong>
+        </font>
+      </p>
+    </td>
+    <td>
+      <p>
+        <font size = "4.5">
+          <strong> Test accuracy : 90.47 %</strong>
         </font>
       </p>
     </td>
