@@ -101,12 +101,13 @@ if __name__ == '__main__':
         batch_data, batch_label = batch
         batch_data = batch_data.to(args.device)
         batch_label = batch_label.to(args.device)
-        
+        # print(batch_data.shape)
+        # print(batch_label.shape)
         selected_indices = torch.randint(0, batch_data.shape[1],(args.num_points,))
         # print(selected_indices)
         # Update batch_data and batch_label with selected points
         batch_data = batch_data[:, selected_indices, :]
-        batch_label = batch_label[:, selected_indices]
+        # batch_label = batch_label[:, selected_indices]
         # print(batch_data.shape)
         # print(batch_label.shape)
         rotated_data = apply_rotations(batch_data, args)
